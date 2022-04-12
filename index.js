@@ -19,7 +19,9 @@ app.use(express.urlencoded({ extended: true}));
 
 app.get("/", (req, res)=>{
     //fazer um select all - raw = trazer apenas os dados
-    Pergunta.findAll({raw: true}).then(perguntas =>{
+    Pergunta.findAll({raw: true, order: [
+        ['id', 'DESC']
+    ]}).then(perguntas =>{
         res.render('index', {
             perguntas
         });
