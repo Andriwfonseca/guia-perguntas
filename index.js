@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const { connection } = require('./database/mysql');
-const perguntaModel = require('./models/Pergunta');''
+const connection = require('./database/mysql');
+const Pergunta = require('./models/Pergunta');''
 
 //conecta no banco
 connection.authenticate().then(() =>{
@@ -18,7 +18,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 app.get("/", (req, res)=>{
-    res.render('index');
+    //fazer um select all - raw = trazer apenas os dados
+    Pergunta.findAll({raw: true}).then(perguntas =>{
+        res.render('index', {
+            perguntas
+        });
+    });
 });
 
 app.get("/perguntar", (req, res) =>{
@@ -29,7 +34,13 @@ app.post("/salvarpergunta", (req, res) =>{
     const { titulo } = req.body;
     const { descricao } = req.body;
 
-    res.send(titulo + descricao);
+    //fazer o insert no banco de dados e redireciona o usuario para a pagina principal
+    Pergunta.create({
+        titulo,
+        descricao
+    }).then(()=> {
+        res.redirect("/");
+    });
 })
 
 app.listen(3000, ()=> console.log("App rodando!"));

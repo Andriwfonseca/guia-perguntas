@@ -5,6 +5,4 @@ const connection = new Sequelize('guiaperguntas', 'root', '', {
     dialect: 'mysql'
 });
 
-module.exports = {
-    connection
-}
+module.exports = connection;

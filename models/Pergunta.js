@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { connection } = require('../database/mysql');
+const connection = require('../database/mysql');
 
 const Pergunta = connection.define('perguntas', {
     titulo: {
@@ -14,3 +14,5 @@ const Pergunta = connection.define('perguntas', {
 
 //sincronizar com banco de dados, se nao tiver a tabela no banco.. então, é criado
 Pergunta.sync({force: false}).then(() =>{});
+
+module.exports = Pergunta;
