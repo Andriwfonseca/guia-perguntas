@@ -1,4 +1,5 @@
 const Pergunta = require('../models/Pergunta');
+const Resposta = require('../models/Resposta');
 
 const findAll = (req, res) => {
     //fazer um select all - raw = trazer apenas os dados
@@ -28,8 +29,36 @@ const salvarPergunta = (req, res) => {
     });
 }
 
+const perguntaID = (req, res) => {
+    const { id } = req.params;
+
+    Pergunta.findOne({
+        where: {id: id}
+    }).then(pergunta => {
+        if(pergunta){
+
+            Resposta.findAll({
+                where: {id_pergunta: pergunta.id},
+                order: [
+                    ['id', 'DESC']
+                ]
+            }).then( respostas =>{
+                res.render("pergunta", {
+                    pergunta,
+                    respostas
+                });
+            });
+
+            
+        }else{
+            res.redirect("/");
+        }
+    });
+}
+
 module.exports = {
     findAll,
     perguntar,
-    salvarPergunta
+    salvarPergunta,
+    perguntaID
 }
