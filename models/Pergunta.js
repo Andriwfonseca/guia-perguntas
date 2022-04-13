@@ -13,6 +13,6 @@ const Pergunta = connection.define('perguntas', {
 });
 
 //sincronizar com banco de dados, se nao tiver a tabela no banco.. então, é criado
-Pergunta.sync({force: false}).then(() =>{});
+Pergunta.sync({force: false});
 
 module.exports = Pergunta;
